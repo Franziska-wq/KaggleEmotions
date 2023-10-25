@@ -1,3 +1,10 @@
+import nltk
+from nltk.corpus import stopwords, words
+from nltk.stem.porter import *
+from nltk import word_tokenize
+
+nltk.download('stopwords')
+
 ################ Global variables ################
 # paths for the files
 data_path = "./data/"
@@ -27,3 +34,26 @@ def write_to_file(file_path: str, content: str, new: bool):
     else: file = open(file_path,'a')
     file.write(content)
     file.close()
+    
+# perform Stemming and remove Stopwords
+def preprocess(sentences, append=False):
+    cleaned = []
+    break_p = False
+    
+    for sentence in sentences:
+        if not type(sentences) == list: 
+            sentence = sentences
+            break_p = True
+        stop_words = list(set(stopwords.words('english')))
+        stop_words.extend(['im', 'ive','dont','cant'])
+        stemmer = PorterStemmer()
+    
+        word_tokens = word_tokenize(sentence)
+        cleaned_words = [stemmer.stem(w) for w in word_tokens if not w.lower() in stop_words]
+        if append:
+            cleaned.append(cleaned_words)
+        else:
+            cleaned.extend(cleaned_words)
+        if break_p: 
+            break
+    return cleaned
