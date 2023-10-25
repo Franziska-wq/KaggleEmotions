@@ -3,7 +3,7 @@ from nltk.corpus import stopwords, words
 from nltk.stem.porter import *
 from nltk import word_tokenize
 
-nltk.download('stopwords')
+#nltk.download('stopwords')
 
 ################ Global variables ################
 # paths for the files
@@ -50,10 +50,11 @@ def preprocess(sentences, append=False):
     
         word_tokens = word_tokenize(sentence)
         cleaned_words = [stemmer.stem(w) for w in word_tokens if not w.lower() in stop_words]
+        if break_p:
+            return cleaned_words
+        
         if append:
             cleaned.append(cleaned_words)
         else:
             cleaned.extend(cleaned_words)
-        if break_p: 
-            break
     return cleaned
