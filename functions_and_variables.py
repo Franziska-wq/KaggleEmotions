@@ -2,6 +2,7 @@ import nltk
 from nltk.corpus import stopwords, words
 from nltk.stem.porter import *
 from nltk import word_tokenize
+import string
 
 #nltk.download('stopwords')
 
@@ -48,7 +49,7 @@ def preprocess(sentences, append=False):
         stop_words.extend(['im', 'ive','dont','cant'])
         stemmer = PorterStemmer()
     
-        word_tokens = word_tokenize(sentence)
+        word_tokens = [word.lower() for word in word_tokenize(sentence) if word not in string.punctuation]
         cleaned_words = [stemmer.stem(w) for w in word_tokens if not w.lower() in stop_words]
         if break_p:
             return cleaned_words
